@@ -1,4 +1,4 @@
-0:["A4e71D0T2RGB2NDz70NHM",[[["",{"children":["recipes",{"children":[["slug","examples/neapolitan-pizza","oc"],{"children":["__PAGE__?{\"slug\":[\"examples\",\"neapolitan-pizza\"]}",{}]}]}]},"$undefined","$undefined",true],"$L1",[[],"$L2"]]]]
+0:["l4uL6-jY2sFZypmuiRVmF",[[["",{"children":["recipes",{"children":[["slug","examples/neapolitan-pizza","oc"],{"children":["__PAGE__?{\"slug\":[\"examples\",\"neapolitan-pizza\"]}",{}]}]}]},"$undefined","$undefined",true],"$L1",[[],"$L2"]]]]
 3:HL["/_next/static/css/de49de99f358c61c.css",{"as":"style"}]
 4:I{"id":16,"chunks":["698:static/chunks/698-0477ee08aa4ee9cf.js","185:static/chunks/app/layout-7623dd3ffdedbed6.js"],"name":"","async":false}
 5:I{"id":7767,"chunks":["272:static/chunks/webpack-5fb9da7a448daaef.js","971:static/chunks/fd9d1056-a108a1641bd61cd7.js","596:static/chunks/596-dd163dbaa0c28ce8.js"],"name":"default","async":false}
