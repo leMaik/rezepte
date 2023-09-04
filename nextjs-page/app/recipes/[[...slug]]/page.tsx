@@ -22,7 +22,7 @@ function getSlug(recipePath: string) {
   return {
     path: recipePath,
     name: basename(recipePath).replace(/\.cook$/, ""),
-    categories: recipePath.split("/").slice(1, -1),
+    categories: recipePath.split("/").slice(2, -1),
     slug,
     fullSlug: slug.join("/"),
   };
