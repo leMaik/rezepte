@@ -30,7 +30,7 @@ export function RecipeView({
   categories: string[];
 }) {
   const servingsInRecipe = useMemo(
-    () => parseInt(recipe.metadata.servings as string, 10) || null,
+    () => parseInt(recipe.metadata.servings as string, 10) || 1,
     [recipe]
   );
   const [servings, setServings] = React.useState(servingsInRecipe);
@@ -84,40 +84,42 @@ export function RecipeView({
           Zutaten
         </Typography>
 
-        {servingsInRecipe && (
-          <Box
-            sx={{
-              width: 200,
-              display: "flex",
-              flexDirection: "row",
-              ml: 1,
-              mt: -1,
-            }}
+        <Box
+          sx={{
+            width: 200,
+            display: "flex",
+            flexDirection: "row",
+            ml: 1,
+            mt: -1,
+          }}
+        >
+          <IconButton
+            variant="soft"
+            color="primary"
+            size="sm"
+            disabled={servings === 1}
+            onClick={handleRemoveServing}
           >
-            <IconButton
-              variant="soft"
-              color="primary"
-              size="sm"
-              disabled={servings === 1}
-              onClick={handleRemoveServing}
-            >
-              -
-            </IconButton>
-            <Typography
-              sx={{ flex: 1, textAlign: "center", lineHeight: "32px" }}
-            >
-              {servings} Portionen
-            </Typography>
-            <IconButton
-              variant="soft"
-              color="primary"
-              size="sm"
-              onClick={handleAddServing}
-            >
-              +
-            </IconButton>
-          </Box>
-        )}
+            -
+          </IconButton>
+          <Typography sx={{ flex: 1, textAlign: "center", lineHeight: "32px" }}>
+            {recipe.metadata.servings
+              ? `${servings} Portionen`
+              : servings === 1
+              ? "einfache Menge"
+              : servings === 2
+              ? "doppelte Menge"
+              : `${servings}-fache Menge`}
+          </Typography>
+          <IconButton
+            variant="soft"
+            color="primary"
+            size="sm"
+            onClick={handleAddServing}
+          >
+            +
+          </IconButton>
+        </Box>
       </Box>
 
       <Table
