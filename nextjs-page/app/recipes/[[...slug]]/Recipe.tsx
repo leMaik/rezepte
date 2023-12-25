@@ -1,17 +1,17 @@
 "use client";
+import "@fontsource/indie-flower";
 import {
   Box,
-  FormControl,
-  FormLabel,
+  Breadcrumbs,
   IconButton,
-  Input,
   Link,
   Table,
   Typography,
 } from "@mui/joy";
 import type { Recipe } from "cooklang-parser";
+import NextLink from "next/link";
 import React, { useCallback, useMemo } from "react";
-import "@fontsource/indie-flower";
+import slugify from "slugify";
 
 type RecipeType = ReturnType<typeof Recipe>;
 type IngredientToken<T = RecipeType["ingredients"][number]> = T extends {
@@ -23,9 +23,11 @@ type IngredientToken<T = RecipeType["ingredients"][number]> = T extends {
 export function RecipeView({
   name,
   recipe,
+  categories,
 }: {
   name: string;
   recipe: RecipeType;
+  categories: string[];
 }) {
   const servingsInRecipe = useMemo(
     () => parseInt(recipe.metadata.servings as string, 10) || null,
@@ -44,6 +46,23 @@ export function RecipeView({
 
   return (
     <Box sx={{ p: 1 }}>
+      <Breadcrumbs size="sm" sx={{ px: 0 }}>
+        <Link component={NextLink} href="/recipes">
+          Rezepte
+        </Link>
+        {categories.map((category, i) => (
+          <Link
+            key={category}
+            component={NextLink}
+            href={`/recipes/${categories
+              .slice(0, i + 1)
+              .map((category) => slugify(category).toLowerCase())
+              .join("/")}`}
+          >
+            {category}
+          </Link>
+        ))}
+      </Breadcrumbs>
       <Typography level="h3" component="h1" mb={1}>
         {name}
       </Typography>

@@ -100,7 +100,13 @@ export default async function RecipePage({
 
   if (recipeText) {
     const recipe = Recipe(recipeText);
-    return <RecipeView name={recipeData.name} recipe={recipe} />;
+    return (
+      <RecipeView
+        name={recipeData.name}
+        recipe={recipe}
+        categories={recipeData.categories}
+      />
+    );
   }
 
   return (
