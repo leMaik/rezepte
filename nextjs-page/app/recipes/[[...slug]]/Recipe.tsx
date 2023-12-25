@@ -188,7 +188,8 @@ export function RecipeView({
                 case "timer":
                   return (
                     <React.Fragment key={tokenIndex}>
-                      {token.quantity} {token.units}
+                      {token.quantity}{" "}
+                      {stringifyUnit(token.units, token.quantity)}
                     </React.Fragment>
                   );
               }
@@ -215,4 +216,11 @@ export function RecipeView({
       )}
     </Box>
   );
+}
+
+function stringifyUnit(unit: string, quantity: string | number) {
+  if (unit === "Minute") {
+    return quantity === 1 ? "Minute" : "Minuten";
+  }
+  return unit;
 }
