@@ -151,7 +151,9 @@ export function RecipeView({
                   ? "etwas"
                   : typeof ingredient.quantity === "string"
                   ? ingredient.quantity
-                  : ingredient.quantity * multiplier}
+                  : (ingredient.quantity * multiplier).toLocaleString("de-DE", {
+                      maximumFractionDigits: 3,
+                    })}
                 {ingredient.units && ` ${ingredient.units}`}
               </td>
               <td>{ingredient.name}</td>
@@ -197,7 +199,12 @@ export function RecipeView({
                           ? "etwas"
                           : typeof token.quantity === "string"
                           ? token.quantity
-                          : token.quantity * multiplier}
+                          : (token.quantity * multiplier).toLocaleString(
+                              "de-DE",
+                              {
+                                maximumFractionDigits: 3,
+                              }
+                            )}
                         {token.units && ` ${token.units}`} {token.name}
                       </span>
                     )
