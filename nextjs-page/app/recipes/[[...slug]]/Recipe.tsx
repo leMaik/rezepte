@@ -160,6 +160,25 @@ export function RecipeView({
         </tbody>
       </Table>
 
+      {recipe.cookware.length > 0 && (
+        <>
+          <Typography level="title-lg" component="h2" mt={2}>
+            Kochutensilien
+          </Typography>
+          <Typography>
+            {recipe.cookware
+              .map((cookware) =>
+                cookware.quantity
+                  ? typeof cookware.quantity === "number"
+                    ? `${cookware.quantity} ${cookware.name}`
+                    : `${cookware.name} (${cookware.quantity})`
+                  : cookware.name
+              )
+              .join(", ")}
+          </Typography>
+        </>
+      )}
+
       <Typography level="title-lg" component="h2" mt={2}>
         Zubereitung
       </Typography>
