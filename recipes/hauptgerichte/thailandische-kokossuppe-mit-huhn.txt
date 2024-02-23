@@ -1,4 +1,4 @@
-0:["HviJ8m-kh6is2-tcjywWN",[[["",{"children":["recipes",{"children":[["slug","hauptgerichte/thailandische-kokossuppe-mit-huhn","oc"],{"children":["__PAGE__?{\"slug\":[\"hauptgerichte\",\"thailandische-kokossuppe-mit-huhn\"]}",{}]}]}]},"$undefined","$undefined",true],"$L1",[[],"$L2"]]]]
+0:["psYhd8u0CKDoAPhRfCgsJ",[[["",{"children":["recipes",{"children":[["slug","hauptgerichte/thailandische-kokossuppe-mit-huhn","oc"],{"children":["__PAGE__?{\"slug\":[\"hauptgerichte\",\"thailandische-kokossuppe-mit-huhn\"]}",{}]}]}]},"$undefined","$undefined",true],"$L1",[[],"$L2"]]]]
 3:HL["/_next/static/css/de49de99f358c61c.css",{"as":"style"}]
 4:I{"id":16,"chunks":["698:static/chunks/698-15b3ada76968c815.js","185:static/chunks/app/layout-b9df6081b1959eba.js"],"name":"","async":false}
 5:I{"id":7767,"chunks":["272:static/chunks/webpack-f1e3fe11658fffa3.js","971:static/chunks/fd9d1056-b32bb1cc69955338.js","596:static/chunks/596-58713c842133b08b.js"],"name":"default","async":false}
