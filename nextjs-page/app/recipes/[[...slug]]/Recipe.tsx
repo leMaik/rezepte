@@ -154,7 +154,7 @@ export function RecipeView({
                   : (ingredient.quantity * multiplier).toLocaleString("de-DE", {
                       maximumFractionDigits: 3,
                     })}
-                {ingredient.units && ` ${ingredient.units}`}
+                {ingredient.units && `\u202f${ingredient.units}`}
               </td>
               <td>{ingredient.name}</td>
             </tr>
@@ -205,7 +205,7 @@ export function RecipeView({
                                 maximumFractionDigits: 3,
                               }
                             )}
-                        {token.units && ` ${token.units}`} {token.name}
+                        {token.units && `\u202f${token.units}`} {token.name}
                       </span>
                     )
                 )}
@@ -235,7 +235,7 @@ export function RecipeView({
                 case "timer":
                   return (
                     <React.Fragment key={tokenIndex}>
-                      {token.quantity}{" "}
+                      {token.quantity}&0x202f;
                       {stringifyUnit(token.units, token.quantity)}
                     </React.Fragment>
                   );
