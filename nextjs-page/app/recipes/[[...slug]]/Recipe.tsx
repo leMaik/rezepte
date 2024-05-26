@@ -12,6 +12,7 @@ import type { Recipe } from "cooklang-parser";
 import NextLink from "next/link";
 import React, { useCallback, useMemo } from "react";
 import slugify from "slugify";
+import { pluralize } from "../../../german";
 
 type RecipeType = ReturnType<typeof Recipe>;
 type IngredientToken<T = RecipeType["ingredients"][number]> = T extends {
@@ -237,6 +238,7 @@ export function RecipeView({
                     <React.Fragment key={tokenIndex}>
                       {token.quantity}
                       {`\u202f`}
+                      {pluralize(token.units, token.quantity)}
                     </React.Fragment>
                   );
               }
@@ -263,11 +265,4 @@ export function RecipeView({
       )}
     </Box>
   );
-}
-
-function stringifyUnit(unit: string, quantity: string | number) {
-  if (unit === "Minute") {
-    return quantity === 1 ? "Minute" : "Minuten";
-  }
-  return unit;
 }
