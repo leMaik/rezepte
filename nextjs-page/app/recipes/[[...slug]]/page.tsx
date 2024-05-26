@@ -30,7 +30,10 @@ function getSlug(recipePath: string) {
 
 function getRecipes() {
   return unstable_cache(
-    async () => (await glob("../recipes/**/*.cook")).map(getSlug),
+    async () =>
+      (await glob("../recipes/**/*.cook"))
+        .filter((path) => !path.includes("examples"))
+        .map(getSlug),
     ["recipes"]
   )();
 }
