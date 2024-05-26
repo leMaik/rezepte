@@ -235,8 +235,8 @@ export function RecipeView({
                 case "timer":
                   return (
                     <React.Fragment key={tokenIndex}>
-                      {token.quantity}&0x202f;
-                      {stringifyUnit(token.units, token.quantity)}
+                      {token.quantity}
+                      {`\u202f`}
                     </React.Fragment>
                   );
               }
