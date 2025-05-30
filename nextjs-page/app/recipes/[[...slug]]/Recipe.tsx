@@ -50,6 +50,8 @@ export function RecipeView({
     [recipe]
   );
 
+  const cookware = useMemo(() => mergeCookware(recipe.cookware), [recipe]);
+
   return (
     <Box sx={{ p: 1 }}>
       <Breadcrumbs size="sm" sx={{ px: 0 }}>
@@ -174,11 +176,16 @@ export function RecipeView({
             Kochutensilien
           </Typography>
           <Typography>
-            {recipe.cookware
+            {cookware
               .map((cookware) =>
                 cookware.quantity
                   ? typeof cookware.quantity === "number"
-                    ? `${cookware.quantity} ${cookware.name}`
+                    ? cookware.quantity === 1
+                      ? cookware.name
+                      : `${cookware.quantity} ${pluralize(
+                          cookware.name,
+                          cookware.quantity
+                        )}`
                     : `${cookware.name} (${cookware.quantity})`
                   : cookware.name
               )
@@ -235,7 +242,7 @@ export function RecipeView({
                 case "cookware":
                   return (
                     <React.Fragment key={tokenIndex}>
-                      {token.name} {token.quantity}
+                      {pluralize(token.name, token.quantity)}
                     </React.Fragment>
                   );
                 case "timer":
@@ -287,6 +294,27 @@ function mergeIngredients(ingredients: IngredientToken[]): IngredientToken[] {
       }
     } else {
       deduped.set(key, { ...ing });
+    }
+  }
+  return Array.from(deduped.values());
+}
+
+function mergeCookware(
+  cookware: RecipeType["cookware"]
+): RecipeType["cookware"] {
+  const deduped = new Map<string, (typeof cookware)[0]>();
+  for (const item of cookware) {
+    const key = `${item.name}`;
+    if (deduped.has(key)) {
+      const existing = deduped.get(key)!;
+      if (
+        typeof existing.quantity === "number" &&
+        typeof item.quantity === "number"
+      ) {
+        existing.quantity += item.quantity;
+      }
+    } else {
+      deduped.set(key, { ...item });
     }
   }
   return Array.from(deduped.values());
