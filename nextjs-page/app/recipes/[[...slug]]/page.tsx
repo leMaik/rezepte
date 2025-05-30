@@ -59,10 +59,13 @@ export async function generateStaticParams() {
   ];
 }
 
-export async function generateMetadata(
-  { params: { slug } }: { params: { slug: string[] } },
-  parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata(props: { params: Promise<{ slug: string[] }> }, parent: ResolvingMetadata): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    slug
+  } = params;
+
   if (slug) {
     const recipes = await getRecipes();
     const recipeData = recipes.find(
@@ -88,11 +91,12 @@ export async function generateMetadata(
   };
 }
 
-export default async function RecipePage({
-  params,
-}: {
-  params: { slug: string[] };
-}) {
+export default async function RecipePage(
+  props: {
+    params: Promise<{ slug: string[] }>;
+  }
+) {
+  const params = await props.params;
   const recipes = await getRecipes();
   const recipeData = recipes.find(
     (recipe) => recipe.fullSlug === params.slug?.join("/")
