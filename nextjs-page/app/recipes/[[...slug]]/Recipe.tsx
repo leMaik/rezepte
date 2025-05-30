@@ -45,6 +45,11 @@ export function RecipeView({
     setServings((servings) => Math.max(1, servings - 1));
   }, []);
 
+  const ingredients = useMemo(
+    () => mergeIngredients(recipe.ingredients),
+    [recipe]
+  );
+
   return (
     <Box sx={{ p: 1 }}>
       <Breadcrumbs size="sm" sx={{ px: 0 }}>
@@ -145,7 +150,7 @@ export function RecipeView({
         }}
       >
         <tbody>
-          {recipe.ingredients.map((ingredient, i) => (
+          {ingredients.map((ingredient, i) => (
             <tr key={i}>
               <td>
                 {ingredient.quantity === "some"
@@ -265,4 +270,24 @@ export function RecipeView({
       )}
     </Box>
   );
+}
+
+function mergeIngredients(ingredients: IngredientToken[]): IngredientToken[] {
+  // Merge ingredients by name and units
+  const deduped = new Map<string, (typeof ingredients)[0]>();
+  for (const ing of ingredients) {
+    const key = `${ing.name}|${ing.units ?? ""}`;
+    if (deduped.has(key)) {
+      const existing = deduped.get(key)!;
+      if (
+        typeof existing.quantity === "number" &&
+        typeof ing.quantity === "number"
+      ) {
+        existing.quantity += ing.quantity;
+      }
+    } else {
+      deduped.set(key, { ...ing });
+    }
+  }
+  return Array.from(deduped.values());
 }

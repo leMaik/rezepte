@@ -103,6 +103,7 @@ export default async function RecipePage({
 
   if (recipeText) {
     const recipe = Recipe(recipeText);
+
     return (
       <RecipeView
         name={recipeData.name}
