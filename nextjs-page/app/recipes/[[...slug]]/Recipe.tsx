@@ -189,6 +189,7 @@ export function RecipeView({
                     : `${cookware.name} (${cookware.quantity})`
                   : cookware.name
               )
+              .sort((a, b) => a.localeCompare(b, "de-DE"))
               .join(", ")}
           </Typography>
         </>
