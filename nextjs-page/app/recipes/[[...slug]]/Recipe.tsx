@@ -164,7 +164,16 @@ export function RecipeView({
                     })}
                 {ingredient.units && `\u202f${ingredient.units}`}
               </td>
-              <td>{ingredient.name}</td>
+              <td>
+                {ingredient.units
+                  ? ingredient.name
+                  : pluralize(
+                      ingredient.name,
+                      typeof ingredient.quantity === "number"
+                        ? ingredient.quantity * multiplier
+                        : ingredient.quantity
+                    )}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -219,7 +228,14 @@ export function RecipeView({
                                 maximumFractionDigits: 3,
                               }
                             )}
-                        {token.units && `\u202f${token.units}`} {token.name}
+                        {token.units
+                          ? `\u202f${token.units} ${token.name}`
+                          : ` ${pluralize(
+                              token.name,
+                              typeof token.quantity === "number"
+                                ? token.quantity * multiplier
+                                : null
+                            )}`}
                       </span>
                     )
                 )}
@@ -237,7 +253,11 @@ export function RecipeView({
                 case "ingredient":
                   return (
                     <React.Fragment key={tokenIndex}>
-                      {token.name}
+                      {typeof token.quantity === "number"
+                        ? pluralize(token.name, token.quantity * multiplier, {
+                            withoutNumber: true,
+                          })
+                        : token.name}
                     </React.Fragment>
                   );
                 case "cookware":
