@@ -23,6 +23,10 @@ const words: Record<
     plural: "Eigelb",
     pluralWithoutNumber: "Eigelbe",
   },
+  "scharfes Paprikapulver": {
+    plural: "Scharfes Paprikapulver",
+    variants: ["scharfem Paprikapulver"],
+  },
 };
 
 function normalize(word: string) {
