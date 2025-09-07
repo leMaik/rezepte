@@ -1,14 +1,13 @@
-import "server-only";
-import { glob } from "glob";
-import { unstable_cache } from "next/cache";
-import slugify from "slugify";
-import fs from "fs/promises";
 import { Recipe } from "cooklang-parser";
-import { basename } from "path";
-import React from "react";
-import Link from "next/link";
+import fs from "fs/promises";
+import { glob } from "glob";
 import { Metadata, ResolvingMetadata } from "next";
+import { unstable_cache } from "next/cache";
+import { basename } from "path";
+import "server-only";
+import slugify from "slugify";
 import { RecipeView } from "./Recipe";
+import RecipeList from "./RecipeList";
 
 function getSlug(recipePath: string) {
   const slug = recipePath
@@ -59,12 +58,13 @@ export async function generateStaticParams() {
   ];
 }
 
-export async function generateMetadata(props: { params: Promise<{ slug: string[] }> }, parent: ResolvingMetadata): Promise<Metadata> {
+export async function generateMetadata(
+  props: { params: Promise<{ slug: string[] }> },
+  parent: ResolvingMetadata
+): Promise<Metadata> {
   const params = await props.params;
 
-  const {
-    slug
-  } = params;
+  const { slug } = params;
 
   if (slug) {
     const recipes = await getRecipes();
@@ -91,11 +91,9 @@ export async function generateMetadata(props: { params: Promise<{ slug: string[]
   };
 }
 
-export default async function RecipePage(
-  props: {
-    params: Promise<{ slug: string[] }>;
-  }
-) {
+export default async function RecipePage(props: {
+  params: Promise<{ slug: string[] }>;
+}) {
   const params = await props.params;
   const recipes = await getRecipes();
   const recipeData = recipes.find(
@@ -117,22 +115,16 @@ export default async function RecipePage(
     );
   }
 
+  const matchingRecipes = params.slug
+    ? recipes.filter((recipe) =>
+        recipe.fullSlug.startsWith(params.slug.join("/"))
+      )
+    : recipes;
+
   return (
-    <>
-      <ul>
-        {recipes
-          .filter((recipe) =>
-            params.slug
-              ? recipe.fullSlug.startsWith(params.slug.join("/"))
-              : true
-          )
-          .sort((a, b) => a.name.localeCompare(b.name, "de-DE"))
-          .map((r, i) => (
-            <li key={i}>
-              <Link href={`/recipes/${r.fullSlug}`}>{r.name}</Link>
-            </li>
-          ))}
-      </ul>
-    </>
+    <RecipeList
+      categories={params.slug ? matchingRecipes[0]!.categories : []}
+      recipes={matchingRecipes}
+    />
   );
 }

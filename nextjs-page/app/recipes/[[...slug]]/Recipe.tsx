@@ -53,8 +53,8 @@ export function RecipeView({
   const cookware = useMemo(() => mergeCookware(recipe.cookware), [recipe]);
 
   return (
-    <Box sx={{ p: 1 }}>
-      <Breadcrumbs size="sm" sx={{ px: 0 }}>
+    <Box sx={{ p: 2 }}>
+      <Breadcrumbs size="sm" sx={{ px: 0, pb: 0 }}>
         <Link component={NextLink} href="/recipes">
           Rezepte
         </Link>
