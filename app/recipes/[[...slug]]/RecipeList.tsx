@@ -13,13 +13,11 @@ export default function RecipeList({
   categories,
   recipes,
 }: {
-  categories: string[];
-  recipes: Array<{
-    path: string;
+  categories: readonly string[];
+  recipes: ReadonlyArray<{
     name: string;
-    categories: string[];
-    slug: string[];
-    fullSlug: string;
+    categories: readonly string[];
+    slug: string;
   }>;
 }) {
   return (
@@ -48,12 +46,12 @@ export default function RecipeList({
       </Typography>
       <List sx={{ mx: -1.5 }}>
         {recipes
-          .sort((a, b) => a.name.localeCompare(b.name, "de-DE"))
+          .toSorted((a, b) => a.name.localeCompare(b.name, "de-DE"))
           .map((r, i) => (
             <ListItemButton
-              key={r.fullSlug}
+              key={r.slug}
               component={Link}
-              href={`/recipes/${r.fullSlug}`}
+              href={`/recipes/${r.slug}`}
               color="primary"
             >
               {r.name}

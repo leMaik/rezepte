@@ -4,9 +4,10 @@
     "node": ">=18"
   },
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start"
+    "dev": "node scripts/generate-cook-manifest.mjs && next dev --turbo",
+    "build": "node scripts/generate-cook-manifest.mjs && next build --turbo",
+    "start": "node scripts/generate-cook-manifest.mjs && next start --turbo",
+    "generate": "node scripts/generate-cook-manifest.mjs"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -15,7 +16,6 @@
     "@mui/joy": "^5.0.0-beta.52",
     "cooklang-parser": "^0.0.3",
     "eslint-config-next": "15.5.9",
-    "glob": "^10.3.4",
     "next": "15.5.9",
     "react": "19.1.0",
     "react-dom": "19.1.0",
@@ -25,6 +25,7 @@
   "devDependencies": {
     "@types/node": "20.5.9",
     "@types/react": "19.1.6",
+    "raw-loader": "^4.0.2",
     "typescript": "5.2.2"
   },
   "overrides": {

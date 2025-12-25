@@ -1,44 +1,12 @@
 import { Recipe } from "cooklang-parser";
-import fs from "fs/promises";
-import { glob } from "glob";
 import { Metadata, ResolvingMetadata } from "next";
-import { unstable_cache } from "next/cache";
-import { basename } from "path";
 import "server-only";
 import slugify from "slugify";
+import { cookManifest as recipes } from "../../../cookManifest";
 import { RecipeView } from "./Recipe";
 import RecipeList from "./RecipeList";
 
-function getSlug(recipePath: string) {
-  const slug = recipePath
-    .split("/")
-    .slice(2)
-    .map((path) =>
-      slugify(path)
-        .toLowerCase()
-        .replace(/.cook$/, "")
-    );
-  return {
-    path: recipePath,
-    name: basename(recipePath).replace(/\.cook$/, ""),
-    categories: recipePath.split("/").slice(2, -1),
-    slug,
-    fullSlug: slug.join("/"),
-  };
-}
-
-function getRecipes() {
-  return unstable_cache(
-    async () =>
-      (await glob("../recipes/**/*.cook"))
-        .filter((path) => !path.includes("examples"))
-        .map(getSlug),
-    ["recipes"]
-  )();
-}
-
 export async function generateStaticParams() {
-  const recipes = await getRecipes();
   const categories = new Set(
     recipes.flatMap((recipe) => recipe.categories.join("/"))
   );
@@ -53,7 +21,7 @@ export async function generateStaticParams() {
       ),
     })),
     ...recipes.map((recipe) => ({
-      slug: recipe.slug,
+      slug: recipe.slug.split("/"),
     })),
   ];
 }
@@ -67,10 +35,7 @@ export async function generateMetadata(
   const { slug } = params;
 
   if (slug) {
-    const recipes = await getRecipes();
-    const recipeData = recipes.find(
-      (recipe) => recipe.fullSlug === slug.join("/")
-    );
+    const recipeData = recipes.find((recipe) => recipe.slug === slug.join("/"));
     if (recipeData) {
       return {
         title: recipeData.name,
@@ -78,7 +43,7 @@ export async function generateMetadata(
     }
 
     const match = recipes.find((recipe) =>
-      recipe.fullSlug.startsWith(slug.join("/"))
+      recipe.slug.startsWith(slug.join("/"))
     );
     if (match) {
       return {
@@ -95,13 +60,10 @@ export default async function RecipePage(props: {
   params: Promise<{ slug: string[] }>;
 }) {
   const params = await props.params;
-  const recipes = await getRecipes();
   const recipeData = recipes.find(
-    (recipe) => recipe.fullSlug === params.slug?.join("/")
+    (recipe) => recipe.slug === params.slug?.join("/")
   );
-  const recipeText = recipeData
-    ? await fs.readFile(recipeData.path, "utf8")
-    : null;
+  const recipeText = recipeData?.source;
 
   if (recipeText) {
     const recipe = Recipe(recipeText);
@@ -116,9 +78,7 @@ export default async function RecipePage(props: {
   }
 
   const matchingRecipes = params.slug
-    ? recipes.filter((recipe) =>
-        recipe.fullSlug.startsWith(params.slug.join("/"))
-      )
+    ? recipes.filter((recipe) => recipe.slug.startsWith(params.slug.join("/")))
     : recipes;
 
   return (

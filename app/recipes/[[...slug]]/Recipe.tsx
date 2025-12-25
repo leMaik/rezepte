@@ -28,7 +28,7 @@ export function RecipeView({
 }: {
   name: string;
   recipe: RecipeType;
-  categories: string[];
+  categories: readonly string[];
 }) {
   const servingsInRecipe = useMemo(
     () => parseInt(recipe.metadata.servings as string, 10) || 1,

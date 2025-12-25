@@ -12,6 +12,23 @@ const nextConfig = {
 
   // Optional: Change the output directory `out` -> `dist`
   // distDir: 'dist',
+  webpack(config, { dev }) {
+    if (dev) {
+      config.module.rules.push({
+        test: /\.cook$/,
+        type: "asset/source",
+      });
+    }
+    return config;
+  },
+  turbopack: {
+    rules: {
+      "*.cook": {
+        loaders: ["raw-loader"],
+        as: "*.js",
+      },
+    },
+  },
 };
 
 module.exports = nextConfig;
