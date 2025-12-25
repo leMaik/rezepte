@@ -271,7 +271,11 @@ export function RecipeView({
                     <React.Fragment key={tokenIndex}>
                       {token.quantity}
                       {`\u202f`}
-                      {pluralize(token.units, token.quantity)}
+                      {pluralize(token.units, token.quantity, {
+                        defaultToPlural: token.quantity
+                          .toString()
+                          .includes("-"),
+                      })}
                     </React.Fragment>
                   );
               }

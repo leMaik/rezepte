@@ -43,11 +43,11 @@ function normalize(word: string) {
 
 export function pluralize(
   word: string,
-  count: number | string,
-  options: { withoutNumber?: boolean } = {}
+  count: number | string | null,
+  options: { withoutNumber?: boolean; defaultToPlural?: boolean } = {}
 ) {
   word = normalize(word);
-  if (typeof count !== "number") {
+  if (typeof count !== "number" && !options.defaultToPlural) {
     return word;
   }
   if (count === 1) {
